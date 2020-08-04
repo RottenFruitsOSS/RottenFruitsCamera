@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="lighter_grey">#DDDDDD</color>
+    <color name="dark">#9A000000</color>
+    <color name="home_page_mode_item_subtitle">#CCFFFFFF</color>
+    <color name="reticle_ripple">#9AFFFFFF</color>
+    <color name="bounding_box_gradient_start">#00FFFFFF</color>
+    <color name="bounding_box_gradient_end">@color/white</color>
+    <color name="object_detected_bg_gradient_start">#00000000</color>
+    <color name="object_detected_bg_gradient_end">#66000000</color>
+    <color name="object_confirmed_bg_gradient_start">#40000000</color>
+    <color name="object_confirmed_bg_gradient_end">#A0000000</color>
+    <color name="object_reticle_outer_ring_fill">#1F000000</color>
+    <color name="object_reticle_outer_ring_stroke">#9AFFFFFF</color>
+    <color name="object_reticle_inner_ring">@color/white</color>
+    <color name="barcode_reticle_background">#99000000</color>
+    <color name="barcode_reticle_stroke">#40000000</color>
+    <color name="barcode_field_value">#797979</color>
+    <color name="barcode_field_box_stroke">#757575</color>
+    <color name="product_description">#5F6368</color>
+
+    <color name="colorPrimary">#a56376</color>
+    <color name="colorPrimaryDark">#520720</color>
+    <color name="colorPrimaryLight">#e4c5c3</color>
+    <!--
+    <color name="colorPrimary">#E91E63</color>
+    <color name="colorPrimaryDark">#C2185B</color>
+    <color name="colorPrimaryLight">#C2185B</color>
+
+    <color name="colorPrimary">#d4e157</color>
+    <color name="colorPrimaryDark">#a0af22</color>
+    <color name="colorPrimaryLight">#ffff89</color>-->
+
+    <color name="primaryColor">#d4e157</color>
+    <color name="primaryLightColor">#ffff89</color>
+    <color name="primaryDarkColor">#a0af22</color>
+    <color name="primaryTextColor">#442C2E</color>
+
+    <color name="colorAccent">#CDDC39</color>
+    <color name="toolbarIconColor">#FFFFFF</color>
+    <color name="loginPageBackgroundColor">#FFFFFF</color>
+    <color name="productGridBackgroundColor">#FFFFFF</color>
+</resources>
