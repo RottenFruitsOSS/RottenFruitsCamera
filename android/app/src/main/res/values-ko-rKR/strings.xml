@@ -12,7 +12,7 @@
     <string name="pref_summary_confirmation_time_in_manual_search">100ms 에서 1000ms</string>
     <string name="pref_title_confirmation_time_in_auto_search">자동 검색 확인 시간</string>
     <string name="pref_summary_confirmation_time_in_auto_search">500ms 에서 2000ms</string>
-    <string name="product_search_button">Search</string>
+    <string name="product_search_button">분석</string>
     <string name="prompt_point_at_a_bird">체리를 찍어 주세요</string>
     <string name="prompt_hold_camera_steady">카메라를 고정해주세요</string>
     <string name="prompt_searching">탐지중&#8230;</string>
@@ -21,6 +21,6 @@
     <string name="static_image_card_no_result_title">오브젝트를 찾지 못했습니다.</string>
     <string name="static_image_card_no_result_subtitle">찾기 실패</string>
     <string name="static_image_preview_card_subtitle">+%d 이상 결과</string>
-    <string name="prompt_point_at_an_object">오브젝트를 찍어주세요</string>
-    <string name="buttom_sheet_custom_model_title">오브젝트 탐지됨</string>
+    <string name="prompt_point_at_an_object">체리 찍어주세요</string>
+    <string name="buttom_sheet_custom_model_title">체리 로튼 지수</string>
 </resources>

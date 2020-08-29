@@ -242,11 +242,11 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
                 currentWorkflowState = workflowState
                 Log.d(TAG, "Current workflow state: ${workflowState.name}")
 
-                //if (PreferenceUtils.isAutoSearchEnabled(this@CustomModelObjectDetectionActivity)) {
+                if (PreferenceUtils.isAutoSearchEnabled(this@CustomModelObjectDetectionActivity)) {
                     stateChangeInAutoSearchMode(workflowState)
-                //} else {
-                //    stateChangeInManualSearchMode(workflowState)
-                //}
+                } else {
+                    stateChangeInManualSearchMode(workflowState)
+                }
             })
 
             // Observes changes on the object to search, if happens, show detected object labels as
@@ -254,7 +254,7 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
 
             objectToSearch.observe(this@CustomModelObjectDetectionActivity, Observer { detectObject ->
                 val productList: List<Product> = detectObject.labels.map { label ->
-                    Product("" /* imageUrl */, label.text, "" /* subtitle */)
+                    Product("" /* imageUrl */, label.text, "${label.confidence*100}" /* subtitle */)
                 }
                 workflowModel?.onSearchCompleted(detectObject, productList)
             })
@@ -311,7 +311,7 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
         }
     }
 
-    private fun stateChangstateChangeInManualSearchModeeInManualSearchMode(workflowState: WorkflowState) {
+    private fun stateChangeInManualSearchMode(workflowState: WorkflowState) {
         val wasPromptChipGone = promptChip?.visibility == View.GONE
         val wasSearchButtonGone = searchButton?.visibility == View.GONE
 
