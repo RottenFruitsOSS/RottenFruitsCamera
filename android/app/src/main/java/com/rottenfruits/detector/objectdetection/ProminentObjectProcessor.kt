@@ -63,6 +63,8 @@ class ProminentObjectProcessor(
             options = CustomObjectDetectorOptions.Builder(localModel)
                 .setDetectorMode(ObjectDetectorOptions.STREAM_MODE)
                 .enableClassification() // Always enable classification for custom models
+                //.setClassificationConfidenceThreshold(0.5f)
+                //.setMaxPerObjectLabelCount(8)
                 .build()
         } else {
             val optionsBuilder = ObjectDetectorOptions.Builder()
