@@ -12,10 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/bottom_sheet_title_margin"
         android:ellipsize="end"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/custom_font_family"
         android:maxLines="1"
         android:textColor="@color/primaryTextColor"
-        android:textSize="@dimen/bottom_sheet_title_size"/>
+        android:textSize="@dimen/bottom_sheet_title_size"
+        android:textStyle="bold" />
 
     <View
         android:layout_width="match_parent"

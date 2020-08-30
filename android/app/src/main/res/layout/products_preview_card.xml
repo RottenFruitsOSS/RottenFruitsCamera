@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/preview_card_title_padding_top"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="@font/custom_font_family"
                 android:maxLines="2"
                 android:textColor="@color/primaryTextColor"
                 android:textSize="@dimen/preview_card_title_text_size"/>
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/preview_card_subtitle_padding_top"
-                android:fontFamily="sans-serif"
+                android:fontFamily="@font/custom_font_family"
                 android:maxLines="2"
                 android:textColor="@color/primaryTextColor"
                 android:textSize="@dimen/preview_card_subtitle_text_size"/>

@@ -25,6 +25,12 @@
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="extendedFloatingActionButtonStyle">@style/Widget.App.ExtendedFloatingActionButton</item>
         <item name="floatingActionButtonStyle">@style/Widget.App.FloatingActionButton</item>
+        <!-- Custom Font -->
+        <item name="android:textViewStyle">@style/customTextViewFontStyle</item>
+        <item name="android:buttonStyle">@style/customButtonFontStyle</item>
+        <item name="android:editTextStyle">@style/customEditTextFontStyle</item>
+        <item name="android:radioButtonStyle">@style/customRadioButtonFontStyle</item>
+        <item name="android:checkboxStyle">@style/customCheckboxFontStyle</item>
     </style>
 
     <style name="Widget.App.ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
@@ -41,6 +47,13 @@
         <item name="colorSecondary">@color/primaryColor</item>
         <item name="colorOnSecondary">@color/primaryTextColor</item>
         <item name="colorOnSurface">@color/primaryTextColor</item>
+        <item name="android:textViewStyle">@style/customTextViewFontStyle</item>
+    </style>
+
+    <style name="RottenCherryTheme.Chip" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="android:textSize">@dimen/bottom_prompt_chip_text_size</item>
+        <item name="fontFamily">@font/custom_font_family</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
 </resources>
