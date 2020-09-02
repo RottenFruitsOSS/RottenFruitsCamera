@@ -86,6 +86,4 @@ dependencies {
     api 'com.google.guava:guava:27.1-jre'
     // end added from mlkit
     implementation 'com.sackcentury:shinebutton:1.0.0'
-
-
 }

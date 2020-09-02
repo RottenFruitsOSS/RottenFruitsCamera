@@ -18,39 +18,29 @@ package com.rottenfruits.detector
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
-import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.hardware.Camera
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.View.*
-import android.widget.TextView
+import android.view.View.OnClickListener
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.common.base.Objects
-import com.google.common.collect.ImmutableList
-import com.rottenfruits.detector.R
 import com.rottenfruits.detector.camera.CameraSource
 import com.rottenfruits.detector.camera.CameraSourcePreview
 import com.rottenfruits.detector.camera.GraphicOverlay
 import com.rottenfruits.detector.camera.WorkflowModel
 import com.rottenfruits.detector.camera.WorkflowModel.WorkflowState
-import com.rottenfruits.detector.objectdetection.MultiObjectProcessor
 import com.rottenfruits.detector.objectdetection.ProminentObjectProcessor
-import com.rottenfruits.detector.productsearch.BottomSheetScrimView
-import com.rottenfruits.detector.productsearch.Product
-import com.rottenfruits.detector.productsearch.ProductAdapter
+import com.rottenfruits.detector.rottendetection.*
 import com.rottenfruits.detector.settings.PreferenceUtils
 import java.io.IOException
-
 
 class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener {
 
@@ -64,12 +54,11 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
     private var searchButton: ExtendedFloatingActionButton? = null
     private var searchButtonAnimator: AnimatorSet? = null
 
-    private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
-    private var bottomSheetScrimView: BottomSheetScrimView? = null
-    private var productRecyclerView: RecyclerView? = null
-    private var bottomSheetTitleView: TextView? = null
-    private var objectThumbnailForBottomSheet: Bitmap? = null
-    private var slidingSheetUpFromHiddenState: Boolean = false
+    // customDialog
+    private var labelsMap: Map<String, String>? = null
+    private var descriptionMap: Map<String, String>? = null
+    private var iconMap: Map<String, Int>? = null
+    private var resultDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,16 +84,16 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
             ) as AnimatorSet).apply {
                 setTarget(searchButton)
             }
-        setUpBottomSheet()
+
         setUpWorkflowModel()
+        setUpCustomDialog()
     }
 
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume")
-
+        resultDialog?.dismiss()
         workflowModel?.markCameraFrozen()
-        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
 
         if (!Utils.allPermissionsGranted(this)) {
             Utils.requestRuntimePermissions(this)
@@ -113,19 +102,11 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
         workflowModel?.setWorkflowState(WorkflowState.DETECTING)
 
         cameraSource?.setFrameProcessor(
-            if (PreferenceUtils.isMultipleObjectsMode(this)) {
-                MultiObjectProcessor(
-                    graphicOverlay!!, workflowModel!!
-                    ,
-                    CUSTOM_MODEL_PATH
-                )
-            } else {
-                ProminentObjectProcessor(
-                    graphicOverlay!!, workflowModel!!
-                    ,
-                    CUSTOM_MODEL_PATH
-                )
-            }
+            ProminentObjectProcessor(
+                graphicOverlay!!, workflowModel!!
+                ,
+                CUSTOM_MODEL_PATH
+            )
         )
         workflowModel?.setWorkflowState(WorkflowState.DETECTING)
     }
@@ -134,14 +115,6 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
         super.onPause()
         currentWorkflowState = WorkflowState.NOT_STARTED
         stopCameraPreview()
-    }
-
-    override fun onBackPressed() {
-        if (bottomSheetBehavior?.state != BottomSheetBehavior.STATE_HIDDEN) {
-            bottomSheetBehavior?.setState(BottomSheetBehavior.STATE_HIDDEN)
-        } else {
-            super.onBackPressed()
-        }
     }
 
     override fun onDestroy() {
@@ -172,64 +145,6 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
         }
     }
 
-    private fun setUpBottomSheet() {
-        bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet))
-        bottomSheetBehavior?.setBottomSheetCallback(
-            object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    Log.d(TAG, "Bottom sheet new state: $newState")
-                    bottomSheetScrimView?.visibility =
-                        if (newState == BottomSheetBehavior.STATE_HIDDEN) View.GONE else View.VISIBLE
-                    graphicOverlay?.clear()
-
-                    when (newState) {
-                        BottomSheetBehavior.STATE_HIDDEN -> workflowModel?.setWorkflowState(WorkflowState.DETECTING)
-                        BottomSheetBehavior.STATE_COLLAPSED,
-                        BottomSheetBehavior.STATE_EXPANDED,
-                        BottomSheetBehavior.STATE_HALF_EXPANDED -> slidingSheetUpFromHiddenState = false
-                        BottomSheetBehavior.STATE_DRAGGING, BottomSheetBehavior.STATE_SETTLING -> {
-                        }
-                    }
-                }
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                    val searchedObject = workflowModel!!.searchedObject.value
-                    if (searchedObject == null || java.lang.Float.isNaN(slideOffset)) {
-                        return
-                    }
-
-                    val graphicOverlay = graphicOverlay ?: return
-                    val bottomSheetBehavior = bottomSheetBehavior ?: return
-                    val collapsedStateHeight = bottomSheetBehavior.peekHeight.coerceAtMost(bottomSheet.height)
-                    val bottomBitmap = objectThumbnailForBottomSheet ?: return
-                    if (slidingSheetUpFromHiddenState) {
-                        val thumbnailSrcRect = graphicOverlay.translateRect(searchedObject.boundingBox)
-                        bottomSheetScrimView?.updateWithThumbnailTranslateAndScale(
-                            bottomBitmap,
-                            collapsedStateHeight,
-                            slideOffset,
-                            thumbnailSrcRect
-                        )
-                    } else {
-                        bottomSheetScrimView?.updateWithThumbnailTranslate(
-                            bottomBitmap, collapsedStateHeight, slideOffset, bottomSheet
-                        )
-                    }
-                }
-            })
-
-        bottomSheetScrimView = findViewById<BottomSheetScrimView>(R.id.bottom_sheet_scrim_view).apply {
-            setOnClickListener(this@CustomModelObjectDetectionActivity)
-        }
-
-        bottomSheetTitleView = findViewById(R.id.bottom_sheet_title)
-        productRecyclerView = findViewById<RecyclerView>(R.id.product_recycler_view).apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@CustomModelObjectDetectionActivity)
-            adapter = ProductAdapter(ImmutableList.of())
-        }
-    }
-
     private fun setUpWorkflowModel() {
         workflowModel = ViewModelProviders.of(this).get(WorkflowModel::class.java).apply {
 
@@ -253,26 +168,65 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
             // product search results.
 
             objectToSearch.observe(this@CustomModelObjectDetectionActivity, Observer { detectObject ->
-                val productList: List<Product> = detectObject.labels.map { label ->
-                    Product("" /* imageUrl */, label.text, "${label.confidence*100}" /* subtitle */)
+                val rottenScoreList: List<RottenScore> = detectObject.labels.map { label ->
+                    RottenScore("", label.text, "${label.confidence*100}" /* subtitle */)
                 }
-                workflowModel?.onSearchCompleted(detectObject, productList)
+                workflowModel?.onSearchCompleted(detectObject, rottenScoreList)
             })
 
-            // Observes changes on the object that has search completed, if happens, show the bottom sheet
+            // Observes changes on the object that has search completed, if happens, show the customDialog
             // to present search result.
+            Log.e(TAG, "SDK Versopm: ${Build.VERSION.SDK_INT}")
 
             searchedObject.observe(this@CustomModelObjectDetectionActivity, Observer { searchedObject ->
-                objectThumbnailForBottomSheet = searchedObject.getObjectThumbnail()
-                bottomSheetTitleView?.text = getString(R.string.buttom_sheet_custom_model_title)
-                productRecyclerView?.adapter = ProductAdapter(searchedObject.productList)
-                slidingSheetUpFromHiddenState = true
-                bottomSheetBehavior?.peekHeight =
-                    preview?.height?.div(2) ?: BottomSheetBehavior.PEEK_HEIGHT_AUTO
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+                resultDialog = CustomDialog.build(this@CustomModelObjectDetectionActivity)
+                    .title(
+                        labelsMap!!.get(searchedObject.rottenScoreList[0].title)!!,
+                        titleColor = ContextCompat.getColor(
+                            this@CustomModelObjectDetectionActivity, R.color.primaryTextColor)
+                    )
+                    .body(
+                        descriptionMap!!.get(searchedObject.rottenScoreList[0].title)!!,
+                        //searchedObject.productList[0].subtitle,
+                        color = ContextCompat.getColor(
+                            this@CustomModelObjectDetectionActivity, R.color.product_description)
+                    )
+                    .icon(
+                        iconMap!!.get(searchedObject.rottenScoreList[0].title)!!,
+                        true
+                    )
+                    .background(
+                        R.drawable.layout_rounded_cherry
+                    )
+                    .onPositive(
+                        text = getString(R.string.done)
+                    )
+                    .onDismiss() {
+                        workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                    }
             })
-
         }
+    }
+
+    // mapping results with image classification model
+    private fun setUpCustomDialog() {
+        labelsMap = mapOf(
+            Pair("normal", getString(R.string.dialog_result_normal)),
+            Pair("spoiled_early", getString(R.string.dialog_result_spoiled_early)),
+            Pair("spoiled_advanced", getString(R.string.dialog_result_spoiled_advanced))
+        )
+
+        descriptionMap = mapOf(
+            Pair("normal", getString(R.string.dialog_result_normal_description)),
+            Pair("spoiled_early", getString(R.string.dialog_result_spoiled_early_description)),
+            Pair("spoiled_advanced", getString(R.string.dialog_result_spoiled_advanced_description))
+        )
+
+        iconMap = mapOf(
+            Pair("normal", R.drawable.ic_sentiment_very_satisfied_black_24dp),
+            Pair("spoiled_early", R.drawable.ic_sentiment_satisfied_black_24dp),
+            Pair("spoiled_advanced", R.drawable.ic_sentiment_very_dissatisfied_black_24dp)
+        )
     }
 
     private fun stateChangeInAutoSearchMode(workflowState: WorkflowState) {
@@ -358,11 +312,9 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
         }
     }
 
-
-
     companion object {
         private const val TAG = "CustomModelODActivity"
-        private const val CUSTOM_MODEL_PATH = "custom_models/oceania_antarctica.tflite"
+        private const val CUSTOM_MODEL_PATH = "custom_models/cherry_model.tflite"
     }
 
     override fun onClick(view: View) {

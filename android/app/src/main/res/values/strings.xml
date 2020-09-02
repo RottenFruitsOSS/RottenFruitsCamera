@@ -37,4 +37,16 @@
     <string name="static_image_card_no_result_subtitle">Support text place holder</string>
     <string name="static_image_preview_card_subtitle">+%d more results</string>
     <string name="prompt_point_at_an_object">Point your camera at an object</string>
+    <string name="dialog_result_normal">Good</string>
+    <string name="dialog_result_spoiled_early">Not bad</string>
+    <string name="dialog_result_spoiled_advanced">Rotten</string>
+    <string name="dialog_result_normal_description">It is a cherry in good condition. Enjoy your cherry! </string>
+    <string name="dialog_result_spoiled_early_description">It is starting to decay. Eat ASAP!</string>
+    <string name="dialog_result_spoiled_advanced_description">It is a rotten cherry. Please take a close look</string>
+
+    <!-- CustomDialog -->
+    <string name="congratulations">Congratulations</string>
+    <string name="success_body">Transaction is successful</string>
+    <string name="done">Done</string>
+
 </resources>
