@@ -43,7 +43,6 @@ import com.rottenfruits.detector.camera.CameraSourcePreview
 import com.rottenfruits.detector.camera.GraphicOverlay
 import com.rottenfruits.detector.camera.WorkflowModel
 import com.rottenfruits.detector.camera.WorkflowModel.WorkflowState
-import com.rottenfruits.detector.objectdetection.MultiObjectProcessor
 import com.rottenfruits.detector.objectdetection.ProminentObjectProcessor
 import com.rottenfruits.detector.productsearch.BottomSheetScrimView
 import com.rottenfruits.detector.productsearch.Product
@@ -113,19 +112,11 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
         workflowModel?.setWorkflowState(WorkflowState.DETECTING)
 
         cameraSource?.setFrameProcessor(
-            if (PreferenceUtils.isMultipleObjectsMode(this)) {
-                MultiObjectProcessor(
-                    graphicOverlay!!, workflowModel!!
-                    ,
-                    CUSTOM_MODEL_PATH
-                )
-            } else {
-                ProminentObjectProcessor(
-                    graphicOverlay!!, workflowModel!!
-                    ,
-                    CUSTOM_MODEL_PATH
-                )
-            }
+            ProminentObjectProcessor(
+                graphicOverlay!!, workflowModel!!
+                ,
+                CUSTOM_MODEL_PATH
+            )
         )
         workflowModel?.setWorkflowState(WorkflowState.DETECTING)
     }
@@ -270,6 +261,7 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
                 bottomSheetBehavior?.peekHeight =
                     preview?.height?.div(2) ?: BottomSheetBehavior.PEEK_HEIGHT_AUTO
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+
             })
 
         }
@@ -362,7 +354,7 @@ class CustomModelObjectDetectionActivity : AppCompatActivity(), OnClickListener 
 
     companion object {
         private const val TAG = "CustomModelODActivity"
-        private const val CUSTOM_MODEL_PATH = "custom_models/oceania_antarctica.tflite"
+        private const val CUSTOM_MODEL_PATH = "custom_models/cherry_model.tflite"
     }
 
     override fun onClick(view: View) {

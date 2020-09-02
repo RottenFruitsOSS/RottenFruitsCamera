@@ -24,7 +24,7 @@
     <dimen name="bounding_box_confirmed_stroke_width">2dp</dimen>
     <dimen name="bounding_box_corner_radius">12dp</dimen>
     <dimen name="product_item_padding">16dp</dimen>
-    <dimen name="product_item_image_size">80dp</dimen>
+    <dimen name="product_item_image_size">40dp</dimen>
     <dimen name="product_item_image_margin_end">16dp</dimen>
     <dimen name="product_item_title_size">24sp</dimen>
     <dimen name="product_item_subtitle_size">14sp</dimen>

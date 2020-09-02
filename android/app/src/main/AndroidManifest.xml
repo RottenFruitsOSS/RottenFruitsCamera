@@ -17,13 +17,6 @@
         tools:replace="android:allowBackup"
         android:theme="@style/AppTheme">
 
-
-        <activity
-            android:name="com.rottenfruits.detector.MainActivity"
-            android:exported="false"
-            android:screenOrientation="portrait">
-        </activity>
-
         <activity
             android:name="com.rottenfruits.detector.SplashActivity"
             android:screenOrientation="portrait">

@@ -39,11 +39,7 @@ class ProductAdapter(private val productList: List<Product>) : Adapter<ProductVi
 
         fun bindProduct(product: Product) {
             imageView.setImageDrawable(null)
-            if (!TextUtils.isEmpty(product.imageUrl)) {
-                ImageDownloadTask(imageView, imageSize).execute(product.imageUrl)
-            } else {
-                imageView.setImageResource(R.drawable.cherry_logo)
-            }
+            imageView.setImageResource(R.drawable.cherry_logo)
             titleView.text = product.title
             subtitleView.text = product.subtitle
         }
