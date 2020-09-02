@@ -2,8 +2,20 @@
 
 RottenCherryS 프로젝트는 체리의 부패 정도를 딥러닝의 이미지 분류를 이용하여 문제를 해결하고자 합니다. 데이터 수집, 모델 빌드 및 학습 그리고 실생활에 활용의 단계의 3 단계 중, 이 repository 에서는 마지막 단계인 활용 즉, 안드로이드 모바일 앱 작성에 대한 것입니다.
 
+
+<img src="https://github.com/peltraw/RottenFruitsCamera/blob/master/images/RottenCherryS_Architecture.png" align="center" width="640" >
+
 딥러닝 모델이 생성된 후에 이를 실생활에 적용하는 많은 방법들이 있습니다. RottenCherryS 에서는  on-device 머신러닝을 지원하는 Google ML Kit APIs 를 활용하여 체리 분류 커스텀 모델을 라이브 카메라 스트림으로 실행되고 사용자에 친숙한 직관적인 상태 판별 정보를 UI 형태로 결과를 제공합니다.
 
+## Screenshots
+<div> 
+  <img src="https://github.com/peltraw/RottenFruitsCamera/blob/master/images/RottenCherryS_step2.png" align="left" width="256">
+  
+  <img src="https://github.com/peltraw/RottenFruitsCamera/blob/master/images/RottenCherryS_step3.png" align="center" width="256">
+  
+  <img src="https://github.com/peltraw/RottenFruitsCamera/blob/master/images/RottenCherryS_AppGuide.gif" align="right" width="256">
+</div>
+  
 ## 개발언어
 - Kotlin : 안드로이드 모바일 앱 개발 언어
 - Tensorflow Lite : 모바일 및 임베디드 기기에 모델을 배포하기 위한 라이브러리
