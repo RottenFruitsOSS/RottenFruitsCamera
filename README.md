@@ -1,11 +1,11 @@
 # ML Kit Vision on-device 체리 부패 인식 안드로이드 앱 
 
-RottenCherryS 프로젝트는 체리의 부패 정도를 딥러닝의 이미지 분류를 이용하여 문제를 해결하고자 합니다. 데이터 수집, 모델 빌드 및 학습 그리고 실생활에 활용의 단계의 3 단계 중, 이 repository 에서는 마지막 단계인 활용 즉, 안드로이드 모바일 앱 작성에 대한 것입니다.
+RottenCherryS 프로젝트는 체리의 부패 정도를 딥러닝의 이미지 분류를 이용하여 문제를 해결하고자 합니다. [데이터 수집](https://github.com/RottenFruitsOSS/DataSet), [모델 빌드 및 학습](https://github.com/RottenFruitsOSS/image-classification) 그리고 실생활에 활용의 단계의 3 단계 중, 이 repository 에서는 마지막 단계인 활용 즉, 안드로이드 모바일 앱 작성에 대한 것입니다.
 
 
 <img src="https://github.com/peltraw/RottenFruitsCamera/blob/master/images/RottenCherryS_Architecture.png" align="center" width="640" >
 
-딥러닝 모델이 생성된 후에 이를 실생활에 적용하는 많은 방법들이 있습니다. RottenCherryS 에서는  on-device 머신러닝을 지원하는 Google ML Kit APIs 를 활용하여 체리 분류 커스텀 모델을 라이브 카메라 스트림으로 실행되고 사용자에 친숙한 직관적인 상태 판별 정보를 UI 형태로 결과를 제공합니다.
+딥러닝 모델이 생성된 후에 이를 실생활에 적용하는 많은 방법들이 있습니다. RottenCherryS 에서는  on-device 머신러닝을 지원하는 [Google ML Kit APIs](https://developers.google.com/ml-kit/guides) 를 활용하여 체리 분류 커스텀 모델을 라이브 카메라 스트림으로 실행되고 사용자에 친숙한 직관적인 상태 판별 정보를 UI 형태로 결과를 제공합니다.
 
 ## Screenshots
 <div> 
@@ -15,26 +15,26 @@ RottenCherryS 프로젝트는 체리의 부패 정도를 딥러닝의 이미지 
 </div>
   
 ## 개발언어
-- Kotlin : 안드로이드 모바일 앱 개발 언어
-- Tensorflow Lite : 모바일 및 임베디드 기기에 모델을 배포하기 위한 라이브러리
+- [Kotlin](https://developer.android.com/kotlin?hl=ko) : 안드로이드 모바일 앱 개발 언어
+- [TensorFlow Lite](https://www.tensorflow.org/lite) : 모바일 및 임베디드 기기에 모델을 배포하기 위한 라이브러리
 
 ## 개발 환경 및 기술 
-Android 플랫폼 : minSdkVersion 19, targetSdkVersion 29 
-ML Kit APIs : on-device 머신러닝을 위한 모바일 SDK
+- [Android 플랫폼](https://developer.android.com/about?hl=ko) : minSdkVersion 19, targetSdkVersion 29 
+- [Google ML Kit APIs](https://developers.google.com/ml-kit/guides) : on-device 머신러닝을 위한 모바일 SDK
 
 ## 주요 기능
-- 빠른 오브젝트 탐지 및 추적 : 카메라 라이브 스트림에서 오브젝트를 탐지하고 연속적으로 추적
+- [빠른 오브젝트 탐지 및 추적](https://developers.google.com/ml-kit/vision/object-detection) : 카메라 라이브 스트림에서 오브젝트를 탐지하고 연속적으로 추적
 - on-device 모델 : 딥러닝 모델이 앱의 Asset에 포함되어 클라우드가 아닌 offline inference 
-- 커스텀 모델의 적용 : 보다 전문적인 분류를 위해 사용자 정의 모델을 사용
+- [커스텀 모델의 적용](https://developers.google.com/ml-kit/custom-models) : 보다 전문적인 분류를 위해 사용자 정의 모델을 사용
   - TensorFlow Lite Model Maker 로 학습
   - TensorFlow 로 학습 후, TensorFlow Lite 로 Convert 후 Metadata 추가
-- 분류 결과를 사용자 편의성 UI제공 : 양호, 주의, 경고와 같이 3단계의 부패 단계를 AlertDialog 를 통해 제공
+- 분류 결과를 사용자 편의성 UI제공 : 양호, 주의, 경고와 같이 3단계의 부패 단계를 [AlertDialog](https://github.com/chnouman/AwesomeDialog) 를 통해 제공
 
 ## 커스텀 모델 적용 Flow
 ### Metadata 가 포함된 tflite 학습 모델을 생성
   - Model Maker 로 학습할 경우 metadata 가 포함된 tflite 모델이 생성됨
   - TensorFlow Lite converter로 생성한 tflite의 경우, MetaData를 포함시켜야 함 
-    - Adding MetaData 참조 :   https://github.com/peltraw/tflite-add-metadata
+    - [Adding MetaData 참조](https://github.com/peltraw/tflite-add-metadata)
 
 ### app/build.gradle 에 ML Kit Android library 를 포함 
 ```
@@ -79,4 +79,8 @@ Labels
 - label.confidence : 객체 분류의 신뢰도 값 (~ 1.00)
 
 ### 탐지된 객체의 label 정보를 CustomDialog 로 정의
+
+## 참고 링크
+- [ML Kit material showcase](https://github.com/googlesamples/mlkit/tree/master/android/material-showcase)
+- [AwesomeDialog](https://github.com/chnouman/AwesomeDialog)
 
