@@ -9,11 +9,9 @@ RottenCherryS 프로젝트는 체리의 부패 정도를 딥러닝의 이미지 
 
 ## Screenshots
 <div> 
-  <img src="https://github.com/peltraw/RottenFruitsCamera/blob/master/images/RottenCherryS_step2.png" align="left" width="256">
-  
-  <img src="https://github.com/peltraw/RottenFruitsCamera/blob/master/images/RottenCherryS_step3.png" align="center" width="256">
-  
-  <img src="https://github.com/peltraw/RottenFruitsCamera/blob/master/images/RottenCherryS_AppGuide.gif" align="right" width="256">
+  <img src="https://github.com/peltraw/RottenFruitsCamera/blob/master/images/RottenCherryS_step2.png" width="256">
+  <img src="https://github.com/peltraw/RottenFruitsCamera/blob/master/images/RottenCherryS_step3.png" width="256">
+  <img src="https://github.com/peltraw/RottenFruitsCamera/blob/master/images/RottenCherryS_AppGuide.gif" width="256">
 </div>
   
 ## 개발언어
