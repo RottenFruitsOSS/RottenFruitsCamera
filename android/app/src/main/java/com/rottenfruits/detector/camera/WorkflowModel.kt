@@ -18,16 +18,14 @@ package com.rottenfruits.detector.camera
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.rottenfruits.detector.CustomModelObjectDetectionActivity
 import com.rottenfruits.detector.objectdetection.DetectedObjectInfo
-import com.rottenfruits.detector.productsearch.Product
-import com.rottenfruits.detector.productsearch.SearchedObject
+import com.rottenfruits.detector.rottendetection.RottenScore
+import com.rottenfruits.detector.rottendetection.SearchedObject
 import com.rottenfruits.detector.settings.PreferenceUtils
-import java.util.HashSet
+import java.util.*
 
 /** View model for handling application workflow based on camera preview.  */
 class WorkflowModel(application: Application) : AndroidViewModel(application) {
@@ -67,7 +65,6 @@ class WorkflowModel(application: Application) : AndroidViewModel(application) {
         ) {
             //confirmedObject = null
         }
-        Log.d("Sunmi", "Current workflow state: ${workflowState.name}")
         this.workflowState.value = workflowState
     }
 
@@ -115,7 +112,7 @@ class WorkflowModel(application: Application) : AndroidViewModel(application) {
         isCameraLive = false
     }
 
-    fun onSearchCompleted(detectedObject: DetectedObjectInfo, products: List<Product>) {
+    fun onSearchCompleted(detectedObject: DetectedObjectInfo, rottenScores: List<RottenScore>) {
         val lConfirmedObject = confirmedObject
         if (detectedObject != lConfirmedObject) {
             // Drops the search result from the object that has lost focus.
@@ -125,6 +122,6 @@ class WorkflowModel(application: Application) : AndroidViewModel(application) {
         objectIdsToSearch.remove(detectedObject.objectId)
         setWorkflowState(WorkflowState.SEARCHED)
 
-        searchedObject.value = SearchedObject(context.resources, lConfirmedObject, products)
+        searchedObject.value = SearchedObject(context.resources, lConfirmedObject, rottenScores)
     }
 }

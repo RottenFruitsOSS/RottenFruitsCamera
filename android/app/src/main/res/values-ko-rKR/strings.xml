@@ -23,4 +23,14 @@
     <string name="static_image_preview_card_subtitle">+%d 이상 결과</string>
     <string name="prompt_point_at_an_object">체리 찍어주세요</string>
     <string name="buttom_sheet_custom_model_title">체리 로튼 지수</string>
+    <string name="dialog_result_normal">양호</string>
+    <string name="dialog_result_spoiled_early">주의</string>
+    <string name="dialog_result_spoiled_advanced">경고</string>
+    <string name="dialog_result_normal_description">맛있는 체리를 즐기세요</string>
+    <string name="dialog_result_spoiled_early_description">부패신호가 감지되었습니다. 가급적 빨리 드세요</string>
+    <string name="dialog_result_spoiled_advanced_description">부패가 꽤 진행되었네요 잘 살펴보세요</string>
+    <!-- CustomDialog -->
+    <string name="congratulations">축하합니다.</string>
+    <string name="success_body">성공했습니다.</string>
+    <string name="done">확 인</string>
 </resources>

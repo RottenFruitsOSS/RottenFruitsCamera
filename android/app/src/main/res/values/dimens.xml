@@ -71,4 +71,11 @@
     <dimen name="barcode_field_label_size">12sp</dimen>
     <dimen name="barcode_field_label_padding">4dp</dimen>
     <dimen name="divider_height">1dp</dimen>
+    <!-- CustomDialog-->
+    <dimen name="ten_dp">10dp</dimen>
+    <dimen name="single_and_half_margin">24dp</dimen>
+    <dimen name="triple_margin">48dp</dimen>
+    <dimen name="double_margin">32dp</dimen>
+    <dimen name="half_margin">8dp</dimen>
+    <dimen name="single_margin">16dp</dimen>
 </resources>
